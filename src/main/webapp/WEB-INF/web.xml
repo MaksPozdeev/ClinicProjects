@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
+         version="3.1">
+
+    <!---->
+    <!--&lt;!&ndash; Form add servlet &ndash;&gt;-->
+    <!--<servlet>-->
+    <!--<servlet-name>formAddTheaterServlet</servlet-name>-->
+    <!--<servlet-class>app.servlets.FormAddTheaterServlet</servlet-class>-->
+    <!--</servlet>-->
+
+    <!--<servlet-mapping>-->
+    <!--<servlet-name>formAddTheaterServlet</servlet-name>-->
+    <!--<url-pattern>/form_add_theater</url-pattern>-->
+    <!--</servlet-mapping>-->
+
+    <!--&lt;!&ndash; return form data servlet &ndash;&gt;-->
+    <!--<servlet>-->
+    <!--<servlet-name>AddTheaterServlet</servlet-name>-->
+    <!--<servlet-class>app.servlets.AddTheater</servlet-class>-->
+    <!--</servlet>-->
+
+    <!--<servlet-mapping>-->
+    <!--<servlet-name>AddTheaterServlet</servlet-name>-->
+    <!--<url-pattern>/add_theater</url-pattern>-->
+    <!--</servlet-mapping>-->
+
+
+
+    <!--&lt;!&ndash; list servlet &ndash;&gt;-->
+    <!--<servlet>-->
+    <!--<servlet-name>list</servlet-name>-->
+    <!--<servlet-class>app.servlets.ListServlet</servlet-class>-->
+    <!--</servlet>-->
+
+    <!--<servlet-mapping>-->
+    <!--<servlet-name>list</servlet-name>-->
+    <!--<url-pattern>/list</url-pattern>-->
+    <!--</servlet-mapping>-->
+
+
+</web-app>

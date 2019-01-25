@@ -1,0 +1,51 @@
+
+CREATE TABLE clients
+(
+	client_id SERIAL PRIMARY KEY,
+	name CHARACTER VARYING(50) NOT NULL,
+	phone CHARACTER VARYING(30) NOT NULL,
+	city CHARACTER VARYING(40) NOT NULL
+);
+
+CREATE TABLE pets
+(
+	pet_id SERIAL PRIMARY KEY,
+	type CHARACTER VARYING(30) NOT NULL,
+	breed CHARACTER VARYING(30) NOT NULL,
+	color CHARACTER VARYING(15) NOT NULL,
+	name CHARACTER VARYING(30) NOT NULL,
+	owner_id INTEGER NOT NULL REFERENCES clients(client_id) ON DELETE CASCADE
+);
+
+INSERT INTO clients (name, phone, city) 
+VALUES ('Евгений Анатольевич', '+78270269309', 'Санкт-Петербург'),
+	('Анатолий Вениаминович', '+78553510158', 'Москва'),
+	('Алла Петровна', '+78184151281', 'Екатеринбург'),
+	('Анна Николаевна', '+78765017136', 'Москва'),
+	('Оксана Александровна', '+78201363541', 'Санкт-Петербург'),
+	('Людмила Евгеньевна', '+78796084705', 'Санкт-Петербург'),
+	('Алёна Олеговна', '+78363709164', 'Москва'),
+	('Никита Максимович', '+78037040410', 'Екатеринбург'),
+	('Пётр Инокентьевич', '+78313747746', 'Санкт-Петербург'),
+	('Олег Дмитриевич', '+79814159899', 'Москва');
+
+
+INSERT INTO pets (type, breed, name, owner_id)
+VALUES ('Собака', 'Эрдельтерер', 'Рекс',1),
+	('Кошка', 'Персидская', 'Стелла',2),
+	('Собака', 'Доберман', 'Тайсон',3),
+	('Кошка', 'Симская', 'Фрея',4),
+	('Грызун', 'Хомяк', 'Роджер',5),
+	('Грызун', 'Хомяк', 'Микки',6),
+	('Собака', 'Далматинец', 'Дональд',7),
+	('Птица', 'Попугай', 'Арчи',8),
+	('Кошка', 'Дворовая', 'Соня',9),
+	('Собака', 'Дог', 'Джек',10);
+
+
+ALTER TABLE pets DROP COLUMN color;
+
+
+
+
+
