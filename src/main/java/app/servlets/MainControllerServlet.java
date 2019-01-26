@@ -5,6 +5,8 @@ package app.servlets;
 //import app.model.DbShowTheaters;
 //import app.model.DbShowUsers;
 
+import app.model.DbShowClients;
+
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -22,7 +24,6 @@ public class MainControllerServlet extends HttpServlet {
 //    private List<Theater> theaters = new ArrayList<>();
 //    private Integer counter;
 //
-//
 //    @Override
 //    public void init(ServletConfig config) throws ServletException {
 //        super.init();
@@ -36,7 +37,6 @@ public class MainControllerServlet extends HttpServlet {
 //        theaters.add(theater3);
 //        theaters.add(theater4);
 //        counter = theaters.size();
-//
 //    }
 
     @Override
@@ -47,29 +47,26 @@ public class MainControllerServlet extends HttpServlet {
         //index.html Кнопка перехода на форму добавления нового театра
         if (req.getParameter("addClientForm") != null){
             System.out.println("FromMainController: change addClientForm");
-//            RequestDispatcher requestDispatcher = req.getRequestDispatcher("views/newTheaterForm.jsp");
             RequestDispatcher requestDispatcher = req.getRequestDispatcher("views/addClientForm.jsp");
             requestDispatcher.forward(req, resp);
         }
 
-        //addClientForm Кнопка добавить нового клиента
+        //views/addClientForm Кнопка добавить нового клиента
         else if (req.getParameter("addClient") != null){
             System.out.println("FromMainController: change addClient");
             RequestDispatcher requestDispatcher = req.getRequestDispatcher("model/AddClient");
             requestDispatcher.forward(req, resp);
         }
 
-
-/*        //Кнопка показать все театры
-        else if (req.getParameter("showTheaters") != null){
-            ArrayList theaters = DbShowTheaters.testDatabase();
-//            req.setAttribute("count", counter);
-            req.setAttribute("teatrs", theaters);
-            RequestDispatcher requestDispatcher = req.getRequestDispatcher("views/showTheaters.jsp");
+        //index.html Кнопка показать всех клиентов
+        else if (req.getParameter("showClients") != null){
+            ArrayList clients = DbShowClients.testDatabase();
+            req.setAttribute("clients", clients);
+            RequestDispatcher requestDispatcher = req.getRequestDispatcher("views/showClients.jsp");
             requestDispatcher.forward(req, resp);
         }
 
-        //Кнопка показать все жанры
+/*        //Кнопка показать все жанры
         else if (req.getParameter("showGenres") != null){
             ArrayList genres = DbShowGenre.testDatabase();
             req.setAttribute("genres", genres);
