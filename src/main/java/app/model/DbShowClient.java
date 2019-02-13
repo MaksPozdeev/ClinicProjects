@@ -1,18 +1,12 @@
 package app.model;
 
 import app.entities.Client;
+import java.sql.*;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.List;
+public class DbShowClient {
 
-public class DbShowClients {
-
-    public static List qweryDatabase() {
-        List<Client> clientsList = new ArrayList<>();
+    public static Client qweryDatabase(int record_id) {
+        Client client = null;
         Integer client_id;
         String name;
         String phone;
@@ -22,35 +16,36 @@ public class DbShowClients {
         String login = "postgres";
         String password = "passgres";
 
+
         try {
             Class.forName("org.postgresql.Driver");
-
             Connection connection = DriverManager.getConnection(url, login, password);
-            try {
-                Statement statement = connection.createStatement();
+            try{
+                PreparedStatement preparedStatement = null;
 
-                ResultSet resultSet = statement.executeQuery("SELECT * FROM clients");
+                preparedStatement = connection.prepareStatement("select * from clients where client_id=?");
+                preparedStatement.setInt(1, record_id);
 
-                while (resultSet.next()) {
+                ResultSet resultSet = preparedStatement.executeQuery();
+
+                while(resultSet.next()){
                     client_id = resultSet.getInt("client_id");
                     name = resultSet.getString("name");
                     phone = resultSet.getString("phone");
                     city = resultSet.getString("city");
 
-                    Client client = new Client(client_id, name, phone, city);
-
-                    clientsList.add(client);
-
-//                    System.out.println(client);
+                    client = new Client(client_id, name, phone, city);
                 }
+
                 resultSet.close();
-                statement.close();
+                preparedStatement.close();
             } finally {
                 connection.close();
             }
-        } catch (Exception e) {
+        }
+        catch(Exception e){
             e.printStackTrace();
         }
-        return clientsList;
+        return client;
     }
 }

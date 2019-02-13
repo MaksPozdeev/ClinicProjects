@@ -13,30 +13,37 @@
 <body>
     <button onclick="location.href='/'">На главную</button>
 
-    <table class="bordered">
-        <caption><h3>Список клиентов</h3></caption>
-        <tr>
-            <th>ID</th>
-            <th>Имя</th>
-            <th>Телефон</th>
-            <th>Город</th>
-        </tr>
+    <form method="Post" action="/MainControllerServlet">
+        <table class="bordered">
+            <caption><h3>Список клиентов</h3></caption>
+            <tr>
+                <th>ID</th>
+                <th>Имя</th>
+                <th>Телефон</th>
+                <th>Город</th>
+                <th>Редактировать</th>
+                <th>Удалить</th>
 
-        <%--Выводим инфу из БД--%>
-        <%
-            ArrayList arr = (ArrayList) request.getAttribute("clients");
-            Iterator<Client> iter  = arr.iterator();
-            while (iter.hasNext()){
-                Client client = iter.next();
-                out.println("<tr>");
-                out.println("<td>" + client.getId() + "</td>");
-                out.println("<td>" + client.getName() + "</td>");
-                out.println("<td>" + client.getPhone() + "</td>");
-                out.println("<td>" + client.getCity() + "</td>");
-                out.println("</tr>");
-            }
-        %>
-    </table>
+            </tr>
+
+            <%--Выводим инфу из БД--%>
+            <%
+                List <Client> arr = (ArrayList)request.getAttribute("clients");
+                for (Client client : arr) {
+                    out.println("<tr>");
+                    out.println("<td>" + client.getId() + "</td>");
+                    out.println("<td>" + client.getName() + "</td>");
+                    out.println("<td>" + client.getPhone() + "</td>");
+                    out.println("<td>" + client.getCity() + "</td>");
+                    out.println("<td><a href=\"/MainControllerServlet?edit_id=" + client.getId() + "\" align=\"center\"> Edit </a></td>");
+                    out.println("<td><a href=\"/MainControllerServlet?delete_id=" + client.getId() + "\"> Delete </a></td>");
+
+
+                    out.println("</tr>");
+                }
+            %>
+        </table>
+    </form>
 </body>
 
 </html>

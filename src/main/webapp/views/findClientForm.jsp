@@ -29,6 +29,10 @@
     <form method="post" action="/MainControllerServlet">
         <table>
             <tr>
+                <td>Id:</td>
+                <td><input type="text" name="client_id"/></td>
+            </tr>
+            <tr>
                 <td>Имя:</td>
                 <td><input type="text" name="name"/></td>
             </tr>
@@ -45,7 +49,7 @@
 
             <tr>
                 <td></td>
-                <td align="right"> <input type="submit" name="addClient" value="Добавить" ></td>
+                <td align="right"> <input type="submit" name="findClient" value="Найти" ></td>
             </tr>
         </table>
     </form>

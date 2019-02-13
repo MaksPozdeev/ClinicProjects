@@ -9,8 +9,8 @@ import java.io.PrintWriter;
 import java.sql.*;
 
 
-@WebServlet("/model/AddClient")
-public class AddClient extends HttpServlet {
+@WebServlet("/model/EditClient")
+public class EditClient extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
@@ -18,17 +18,19 @@ public class AddClient extends HttpServlet {
         resp.setContentType("text/html;charset=UTF-8");
         req.setCharacterEncoding("UTF-8");
 
+        //Количество обновлённых записей
         int rows=0;
 
-//        Инфа для отслеживания в консоли
-        System.out.println("AddClient_servlet: START");
+                //Инфа для отслеживания в консоли
+                System.out.println("EditClient_servlet: START");
 
-        //Добавление клиента
-        if (req.getParameter("addClient") != null) {
+        //Сохранение отредактированных данных клиента
+        if (req.getParameter("editClient") != null) {
+            Integer id = Integer.parseInt(req.getParameter("client_id"));
             String name = req.getParameter("name");
             String phone = req.getParameter("phone");
             String city = req.getParameter("city");
-            System.out.println("Client: " + name +" " + phone +" "+ city);
+            System.out.println("New client data: " + name +" " + phone +" "+ city);
 
             try {
                 Class.forName("org.postgresql.Driver");
@@ -36,23 +38,19 @@ public class AddClient extends HttpServlet {
                 String login = "postgres";
                 String password = "passgres";
 
-                Connection con = DriverManager.getConnection(url, login, password);
-//            String sqlQuery = "INSERT INTO users VALUES (6,'Denis', 'pass6');";
+                Connection connection = DriverManager.getConnection(url, login, password);
                 try {
-//                    Statement stmt = con.createStatement();
-//                ResultSet rs = stmt.executeQuery(sqlQuery);
+                    PreparedStatement preparedStatement;
+                    preparedStatement = connection.prepareStatement("UPDATE clients SET name =?,  phone=?, city=? WHERE client_id=?");
+                    preparedStatement.setString(1, name);
+                    preparedStatement.setString(2, phone);
+                    preparedStatement.setString(3, city);
+                    preparedStatement.setInt(4, id);
 
-                    PreparedStatement pstm = con.prepareStatement("INSERT INTO clients (name,  phone, city) values (?,?,?)");
-                    pstm.setString(1, name);
-                    pstm.setString(2, phone);
-                    pstm.setString(3, city);
-
-                    rows = pstm.executeUpdate();
-//                rs.close();
-                    pstm.close();
-//                    stmt.close();
+                    rows = preparedStatement.executeUpdate();
+                    preparedStatement.close();
                 } finally {
-                    con.close();
+                    connection.close();
                 }
             } catch (Exception e) {
                 e.printStackTrace();

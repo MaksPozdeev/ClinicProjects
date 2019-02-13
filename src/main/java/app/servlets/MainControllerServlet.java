@@ -1,10 +1,8 @@
 package app.servlets;
-//import app.entities.Genre;
-//import app.entities.Theater;
-//import app.model.DbShowGenre;
-//import app.model.DbShowTheaters;
-//import app.model.DbShowUsers;
 
+import app.entities.Client;
+import app.model.DbDeleteClient;
+import app.model.DbShowClient;
 import app.model.DbShowClients;
 
 import javax.servlet.RequestDispatcher;
@@ -14,9 +12,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
-//import java.util.Iterator;
-//import java.util.List;
+import java.util.List;
 
 @WebServlet("/MainControllerServlet")
 public class MainControllerServlet extends HttpServlet {
@@ -32,19 +28,51 @@ public class MainControllerServlet extends HttpServlet {
 //        Theater theater3 = new Theater(3, "TheatreName_3", "City_3", "Address_3", "Phone_3", "site_3.com");
 //        Theater theater4 = new Theater(4, "TheatreName_4", "City_4", "Address_4", "Phone_4", "site_4.com");
 //
-//        theaters.add(theater1);
-//        theaters.add(theater2);
-//        theaters.add(theater3);
-//        theaters.add(theater4);
+//        theaters.add(theater1); theaters.add(theater2); theaters.add(theater3); theaters.add(theater4);
 //        counter = theaters.size();
 //    }
+
+
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        resp.setContentType("text/html;charset=UTF-8");
+        req.setCharacterEncoding("UTF-8");
+
+        // Выбрано действие "Редактирования"
+        if (req.getParameter("edit_id") != null){
+            int record_id = Integer.parseInt(req.getParameter("edit_id"));
+            System.out.println("FromMainController: Option Edit is onClick: " + record_id);
+
+            Client client = DbShowClient.qweryDatabase(record_id);
+            System.out.println(client);
+
+            req.setAttribute("client", client);
+            RequestDispatcher requestDispatcher = req.getRequestDispatcher("views/editClientForm.jsp");
+            requestDispatcher.forward(req, resp);
+        } else
+
+
+            // Выбрано действие "Удаления"
+        if (req.getParameter("delete_id") != null){
+            int record_id = Integer.parseInt(req.getParameter("delete_id"));
+            System.out.println("FromMainController: Option Delete is onClick: " + record_id);
+
+            DbDeleteClient.qweryDatabase(record_id);
+
+            List <Client> clients = DbShowClients.qweryDatabase();
+            req.setAttribute("clients", clients);
+            RequestDispatcher requestDispatcher = req.getRequestDispatcher("views/showClients.jsp");
+            requestDispatcher.forward(req, resp);
+        }
+
+    }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("text/html;charset=UTF-8");
         req.setCharacterEncoding("UTF-8");
 
-        //index.html Кнопка перехода на форму добавления нового театра
+        //index.html Кнопка перехода на форму добавления нового клиента
         if (req.getParameter("addClientForm") != null){
             System.out.println("FromMainController: change addClientForm");
             RequestDispatcher requestDispatcher = req.getRequestDispatcher("views/addClientForm.jsp");
@@ -60,27 +88,28 @@ public class MainControllerServlet extends HttpServlet {
 
         //index.html Кнопка показать всех клиентов
         else if (req.getParameter("showClients") != null){
-            ArrayList clients = DbShowClients.testDatabase();
+            List <Client> clients = DbShowClients.qweryDatabase();
+//            ArrayList clients = DbShowClients.qweryDatabase();
             req.setAttribute("clients", clients);
             RequestDispatcher requestDispatcher = req.getRequestDispatcher("views/showClients.jsp");
             requestDispatcher.forward(req, resp);
         }
 
-/*        //Кнопка показать все жанры
-        else if (req.getParameter("showGenres") != null){
-            ArrayList genres = DbShowGenre.testDatabase();
-            req.setAttribute("genres", genres);
-            RequestDispatcher requestDispatcher = req.getRequestDispatcher("views/showGenres.jsp");
+        // Кнопка "Сохранить" после редактирования
+        else if (req.getParameter("editClient") != null){
+            System.out.println("FromMainController: change Button Save Client");
+            RequestDispatcher requestDispatcher = req.getRequestDispatcher("model/EditClient");
             requestDispatcher.forward(req, resp);
         }
 
-        //Кнопка добавить нового USER'a
-        else if (req.getParameter("newUserForm") != null){
-            RequestDispatcher requestDispatcher = req.getRequestDispatcher("views/tempNewUserForm.jsp");
+        //index.html Кнопка Найти клиента
+        else if (req.getParameter("searchClients") != null){
+            System.out.println("FromMainController: change FinClientForm");
+            RequestDispatcher requestDispatcher = req.getRequestDispatcher("views/findClientForm.jsp");
             requestDispatcher.forward(req, resp);
         }
 
-        //Кнопка показать всех User'ов
+/*        //Кнопка
         else if (req.getParameter("showUsers") != null){
             ArrayList users = DbShowUsers.testShowUsers();
             req.setAttribute("users", users);
@@ -88,26 +117,6 @@ public class MainControllerServlet extends HttpServlet {
             requestDispatcher.forward(req, resp);
         }*/
 
-        //Добавлять СЮДЫ 8-)
 
     }
 }
-
-//        Ещё один способ добавить данные в коллекцию:
-//        ArrayList<Human> human = new ArrayList<>();
-//        for (int i = 0; i < 100; i++)
-//        {
-//            human.add(new Human(HumanName, lastName, middle_name, date, id));
-//        }
-//        human.forEach(System.out::println);
-
-//        Перенаправление на jsp страницу
-//        RequestDispatcher requestDispatcher = req.getRequestDispatcher("views/return_form_data.jsp");
-
-
-//          Кнопка показать все театры из ArrayList'a
-//        } else if (req.getParameter("showTheaters") != null) {
-//            req.setAttribute("count", counter);
-//            req.setAttribute("teatrs", theaters);
-//            RequestDispatcher requestDispatcher = req.getRequestDispatcher("views/showTheaters.jsp");
-//            requestDispatcher.forward(req, resp);
